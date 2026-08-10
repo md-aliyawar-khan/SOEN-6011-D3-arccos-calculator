@@ -1,0 +1,459 @@
+\documentclass[
+    a0paper,
+    landscape,
+    margin=0mm,
+    innermargin=14mm,
+    blockverticalspace=2mm,
+    colspace=10mm
+]{tikzposter}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{enumitem}
+
+\renewcommand{\familydefault}{\rmdefault}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.15cm}
+\linespread{1.00}
+
+\setlist[itemize]{
+    leftmargin=1.3em,
+    itemsep=0.10em,
+    topsep=0.15em,
+    parsep=0pt
+}
+
+% ---------- Colour palette ----------
+\definecolor{PosterGreen}{RGB}{45,105,55}
+\definecolor{PosterText}{RGB}{35,35,35}
+\definecolor{PosterGray}{RGB}{100,100,100}
+
+\usetheme{Simple}
+\tikzposterlatexaffectionproofoff
+\titlegraphic{}
+\useblockstyle{Minimal}
+
+\definecolor{PosterBackground}{RGB}{232,242,233}
+\colorlet{backgroundcolor}{PosterBackground}
+\colorlet{titlebgcolor}{white}
+\colorlet{titlefgcolor}{PosterText}
+\colorlet{blocktitlebgcolor}{white}
+\colorlet{blocktitlefgcolor}{PosterGreen}
+\colorlet{blockbodybgcolor}{white}
+\colorlet{blockbodyfgcolor}{PosterText}
+\colorlet{framecolor}{white}
+
+\definetitlestyle{CleanAcademicTitle}{
+    width=\paperwidth,
+    roundedcorners=0,
+    linewidth=0pt,
+    innersep=8mm,
+    titletotopverticalspace=5mm,
+    titletoblockverticalspace=5mm
+}{}
+\usetitlestyle{CleanAcademicTitle}
+
+\renewcommand{\arraystretch}{1.0}
+
+\hypersetup{
+    colorlinks=true,
+    urlcolor=PosterGreen
+}
+
+\newcommand{\headrule}{%
+    \par\vspace{-0.55cm}%
+    {\color{PosterGreen}\rule{0.55\linewidth}{0.7pt}}%
+    \par\vspace{0.18cm}%
+}
+\newcommand{\captiontext}[1]{%
+    \par\vspace{0.12cm}%
+    {\centering\normalfont\color{PosterGray}#1\par}%
+    \vspace{0.08cm}%
+}
+
+\newcommand{\screenshot}[2]{%
+    \setlength{\fboxsep}{2pt}%
+    \fcolorbox{PosterGreen}{white}{%
+        \includegraphics[
+            width=0.92\linewidth,
+            height=#2,
+            keepaspectratio
+        ]{#1}%
+    }%
+}
+
+
+% ---------- Title ----------
+\title{
+    \fontsize{52pt}{56pt}\selectfont
+    From-Scratch \(\arccos(x)\) Calculator:
+    Taylor Series, Newton's Method, and Software Quality Assurance
+}
+
+\author{
+    \Large\bfseries Mohammad Aliyawar Khan \quad|\quad Student ID: 40309082
+}
+
+\institute{
+    \normalsize
+    Department of Computer Science and Software Engineering,
+    Concordia University\\[0.05cm]
+    SOEN 6011 -- Deliverable 3 \quad|\quad Summer 2026
+}
+
+\begin{document}
+\maketitle
+
+\begin{columns}
+
+% =========================================================
+% COLUMN 1 -- BACKGROUND AND NUMERICAL METHOD
+% =========================================================
+\column{0.245}
+
+\block{D2 Baseline: Numerical Method}{
+\headrule
+\justifying
+The calculator computes the principal real value of $\arccos(x)$ for
+$-1\leq x\leq1$, with results in $[0,\pi]$. It uses range reduction,
+a Taylor-series recurrence for $\arcsin$, and Newton's method for
+square roots without production use of \texttt{math}.
+
+\[
+\arccos(x)=
+\begin{cases}
+2\arcsin\left(\sqrt{(1-x)/2}\right), & x\geq0,\\
+\pi-\arccos(-x), & x<0.
+\end{cases}
+\]
+
+Exact endpoint handling returns $\arccos(1)=0$ and
+$\arccos(-1)=\pi$. The tested error target is
+$\leq10^{-6}$ radians.
+}
+
+\block{D3 Problem 7: Software Quality and Accessibility}{
+\headrule
+\justifying
+Problem 7 improves the D2 calculator through PEP~8, Flake8, Pylint,
+\texttt{pdb}, Semantic Versioning, UIDP-guided interface design, and
+accessibility-oriented improvements.
+
+The production implementation remains from scratch: it does not import
+\texttt{math} and does not use library inverse-trigonometric or
+square-root functions.
+}
+
+\block{GUI Demonstration}{
+\headrule
+\begin{center}
+\screenshot{gui-success.png}{6.0cm}
+\captiontext{
+Exact endpoint calculation:
+$\arccos(-1)=\pi=3.1415926536$ radians.
+}
+\end{center}
+}
+\vspace{-0.35cm}
+
+\block{Implementation and Versioning}{
+\headrule
+\justifying
+\textbf{From-scratch implementation.} The application manually
+implements absolute value, square root, arcsine, and arccosine.
+
+Tkinter is used only for the interface; \texttt{math} is not imported
+by \texttt{problem7.py}.
+
+\textbf{Validation and exceptions}
+\begin{itemize}
+    \item \texttt{InputValidationError}: NaN, infinity, or invalid domain
+    \item \texttt{ConvergenceError}: configured iteration limit reached
+\end{itemize}
+
+\textbf{Semantic Versioning}
+\[
+\boxed{\texttt{v1.0.0 (D2)} \longrightarrow
+       \texttt{v1.1.0 (D3)}}
+\]
+
+\textbf{Why minor?} D3 adds backward-compatible quality and usability
+features: automated tests, static analysis, debugger evidence,
+keyboard support, visible focus, and clearer status feedback. The
+public calculator behavior and valid input domain are unchanged.
+
+The identifier \texttt{v1.1.0} is consistent in the code, GUI title,
+README, and Git tag.
+}
+% =========================================================
+% COLUMN 2 -- SOFTWARE QUALITY TOOLS
+% =========================================================
+\column{0.245}
+
+\block{PEP 8 and Flake8}{
+\headrule
+\justifying
+Applied practices include four-space indentation, descriptive names,
+docstrings, grouped constants, wrapped expressions, and separation of
+numerical and GUI responsibilities.
+
+\begin{center}
+\ttfamily
+python -m flake8 problem7.py test\_problem7.py
+\end{center}
+
+\textbf{Analyzed files:} \texttt{problem7.py} and
+\texttt{test\_problem7.py}.\\
+\textbf{Final result:} \textit{0 violations reported.}
+
+\begin{center}
+\screenshot{flake8-result.png}{4.5cm}
+\captiontext{Flake8 execution evidence for the final source and test files.}
+\end{center}
+}
+
+\block{Static Analysis with Pylint}{
+\headrule
+\justifying
+Pylint inspected the final source and test files for errors, naming,
+documentation, unused code, exception handling, and maintainability.
+
+\begin{center}
+\ttfamily
+python -m pylint problem7.py test\_problem7.py
+\end{center}
+
+\textbf{Analyzed files:} \texttt{problem7.py} and
+\texttt{test\_problem7.py}.\\
+\textbf{Final score:} \texttt{10.00/10}.\\
+\textbf{Remaining messages:} None.
+
+\begin{center}
+\screenshot{pylint-result.png}{4.5cm}
+\captiontext{Pylint report for the final source and test files.}
+\end{center}
+}
+
+
+\block{Debugging with \texttt{pdb}}{
+\headrule
+\justifying
+A breakpoint was placed in \texttt{calculate\_arccos()} immediately
+before range reduction for $x=0.9999$. The session used \texttt{n},
+\texttt{s}, \texttt{p}, and \texttt{c} to inspect \texttt{x},
+\texttt{reduced\_input}, \texttt{term}, \texttt{coefficient}, and
+\texttt{result}.
+
+\textbf{Confirmed:} range reduction produces a small arcsine argument
+near the endpoint; Taylor terms decrease to the configured tolerance;
+and the final value remains in the principal range $[0,\pi]$. The
+investigation found no numerical defect.
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Command} & \textbf{Purpose}\\
+\midrule
+\texttt{n} & Execute the next line\\
+\texttt{s} & Step into a function\\
+\texttt{p variable} & Inspect a variable\\
+\texttt{c} & Continue execution\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{center}
+\screenshot{pdb-session-a.png}{3.5cm}
+\captiontext{Breakpoint, validation, and range-reduction inspection.}
+\vspace{0.05cm}
+\screenshot{pdb-session-b.png}{3.5cm}
+\captiontext{Taylor recurrence variables and final-result inspection.}
+\end{center}
+}
+
+% =========================================================
+% COLUMN 3 -- DEBUGGING AND TESTING
+% =========================================================
+\column{0.265}
+
+\block{D3 Problem 8: Unit Testing}{
+\headrule
+\justifying
+The automated suite uses Python's built-in \texttt{unittest} framework
+(PyUnit) and imports the D3 production module \texttt{problem7.py}.
+
+\textbf{Coverage:} helper functions, Newton square root, Taylor arcsine,
+exact endpoints, normal inputs, near-endpoint inputs, invalid-domain
+values, NaN, infinity, principal range, numerical accuracy, and
+exception paths.
+
+\begin{center}
+\ttfamily
+python -m unittest -v test\_problem7.py
+\end{center}
+
+\textbf{Result: 31 tests passed.} Reference values from
+\texttt{math.acos()} and \texttt{math.asin()} are test oracles only;
+the production module \texttt{problem7.py} does not import
+\texttt{math}.
+
+\begin{center}
+\screenshot{testcase1.png}{3.5cm}
+\captiontext{PyUnit evidence: first group of test cases.}
+\vspace{0.06cm}
+\screenshot{testcase2.png}{3.5cm}
+\captiontext{PyUnit evidence: final tests and \texttt{OK} result.}
+\end{center}
+}
+\block{Selected Test Cases}{
+\headrule
+\justifying
+\begin{center}
+\begin{tabular}{p{0.12\linewidth}p{0.25\linewidth}p{0.50\linewidth}}
+\toprule
+\textbf{ID} & \textbf{Input} & \textbf{Expected outcome}\\
+\midrule
+TC01 & $1.0$ & Exact result $0.0$\\
+TC02 & $-1.0$ & Exact result $\pi$\\
+TC03 & $0.0$ & Approximately $\pi/2$\\
+TC04 & $0.5$ and $-0.5$ & Approximately $\pi/3$ and $2\pi/3$\\
+TC05 & $\pm0.9999$ & Accurate near-endpoint result\\
+TC06 & $1.1$, $-1.1$ & \texttt{InputValidationError}\\
+TC07 & NaN, $\pm\infty$ & \texttt{InputValidationError}\\
+TC08 & Valid test set & Error $\leq10^{-6}$ radians\\
+\bottomrule
+\end{tabular}
+\end{center}
+}
+\block{UIDP and Accessibility}{
+\headrule
+\small
+\justifying
+
+\textbf{Directly applied}
+\begin{itemize}
+    \item \textbf{User Profiling:} supports users entering one real
+    value $x$ and expecting an angle in radians.
+    \item \textbf{Humility:} clear guidance and recoverable errors avoid
+    blaming the user.
+    \item \textbf{Feature Exposure:} labelled input plus visible
+    Calculate, Clear, and Exit controls.
+    \item \textbf{State Visualization:} separate result and status areas
+    show ready, success, and error states.
+    \item \textbf{Coherence:} consistent labels, colours, shortcuts, and
+    error wording.
+    \item \textbf{Safety:} validation prevents invalid calculations while
+    preserving input for correction.
+\end{itemize}
+
+\textbf{Limited applicability:} \textbf{Metaphor} is limited because a scientific calculator is already a familiar direct-manipulation model.
+
+\textbf{Accessibility aim:} readable text, high contrast, visible focus, keyboard navigation, shortcuts, and textual feedback not based only on
+colour. The GUI \emph{aims to be accessible}; it was not formally evaluated with users or assistive technology.
+
+\begin{center}
+\screenshot{uidp-mind-map.png}{6.0cm}
+\captiontext{UIDP applicability decision mind map.}
+\end{center}
+}
+
+% =========================================================
+% COLUMN 4 -- GAI, CONCLUSION, REFERENCES
+% =========================================================
+\column{0.245}
+\block{GAI and CASTROFF Evidence}{
+\headrule
+\justifying
+
+\textbf{AI tool:} Perplexity AI.
+
+\textbf{Problem 7: Code Quality and Accessibility}\\
+\textbf{Prompt:} ``Review my from-scratch Python Tkinter
+$\arccos(x)$ calculator for PEP~8, maintainability, UIDP, and
+accessibility. Do not recommend prohibited \texttt{math} functions.''
+
+\textbf{CASTROFF:} \textit{Constraints}---from-scratch code, no
+production \texttt{math}; \textit{Audience}---SOEN 6011 evaluator;
+\textit{Structure}---prioritized review; \textit{Tone}---technical;
+\textit{Role}---quality reviewer; \textit{Output}---actionable
+recommendations; \textit{Focus}---PEP~8, UIDP, and accessibility;
+\textit{Function}---improve D3 quality.
+
+\textbf{Outcome:} Accepted clearer feedback, visible focus, keyboard
+support, and documentation. Rejected suggestions violating the
+from-scratch constraint. Recommendations were checked against the code
+and compiled GUI.
+
+\textbf{Problem 8: Boundary and Exception Testing}\\
+\textbf{Prompt:} ``Review my PyUnit tests and suggest boundary,
+invalid-input, exception, convergence, and accuracy tests. Use
+\texttt{math.acos()} and \texttt{math.asin()} only as test oracles.''
+
+\textbf{CASTROFF:} \textit{Constraints}---existing API, no production
+\texttt{math}; \textit{Audience}---SOEN 6011 evaluator;
+\textit{Structure}---boundary and exception tests; \textit{Tone}---technical;
+\textit{Role}---test reviewer; \textit{Output}---executable PyUnit tests;
+\textit{Focus}---boundaries, exceptions, accuracy, and range;
+\textit{Function}---validate the implementation.
+
+\textbf{Outcome:} Tests were reviewed against the implementation and
+executed locally: \textbf{31 tests passed}. The \texttt{math} functions
+were used only as test oracles, not production dependencies.
+}
+
+\block{Conclusion}{
+\headrule
+\justifying
+The D3 release combines a range-reduced Taylor series and Newton square
+root with validation, exception recovery, and a Tkinter GUI. Flake8,
+Pylint, \texttt{pdb}, Semantic Versioning, UIDP-guided design, and
+automated PyUnit tests provide verifiable quality evidence.
+
+\textbf{Result:} a numerically reliable, maintainable, testable, and
+accessibility-oriented $\arccos(x)$ calculator.
+}
+
+\block{References and Repository}{
+\headrule
+\small
+\justifying
+
+\begin{tabular}{@{}r@{\hspace{0.25em}}p{0.84\linewidth}@{}}
+[1] & Concordia University, \emph{SOEN 6011 Project Description},
+Summer 2026. \\
+
+[2] & Python Software Foundation, \emph{PEP 8 -- Style Guide for
+Python Code}. \\
+
+[3] & PyCQA, \emph{Flake8 Documentation}. \\
+
+[4] & Pylint Contributors, \emph{Pylint Documentation}. \\
+
+[5] & Python Software Foundation, \emph{pdb -- The Python Debugger}. \\
+
+[6] & Python Software Foundation, \emph{unittest -- Unit Testing Framework}. \\
+
+[7] & Semantic Versioning, \emph{Semantic Versioning 2.0.0}. \\
+
+[8] & W3C, \emph{Web Content Accessibility Guidelines (WCAG) 2.2}. \\
+
+[9] & SOEN 6011 Course Material, \emph{CASTROFF Prompt Framework}. \\
+\end{tabular}
+
+\vspace{0.10cm}
+
+\normalsize\textbf{Repository:}\\[0.02cm]
+\ttfamily\small
+github.com/md-aliyawar-khan/SOEN-6011-D3-arccos-calculator
+}
+
+\end{columns}
+\end{document}
