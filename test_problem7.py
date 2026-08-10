@@ -5,6 +5,8 @@ math.asin() are used only as verification oracles. The production module
 does not import math.
 """
 
+# pylint: disable=missing-function-docstring
+
 import math
 import unittest
 from unittest.mock import patch

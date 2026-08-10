@@ -162,7 +162,6 @@ $\arccos(-1)=\pi=3.1415926536$ radians.
 }
 \end{center}
 }
-\vspace{-0.35cm}
 
 \block{Implementation and Versioning}{
 \headrule
@@ -253,7 +252,7 @@ before range reduction for $x=0.9999$. The session used \texttt{n},
 \texttt{result}.
 
 \textbf{Confirmed:} range reduction produces a small arcsine argument
-near the endpoint; Taylor terms decrease to the configured tolerance;
+near the endpoint, Taylor terms decrease to the configured tolerance,
 and the final value remains in the principal range $[0,\pi]$. The
 investigation found no numerical defect.
 
@@ -271,11 +270,8 @@ investigation found no numerical defect.
 \end{center}
 
 \begin{center}
-\screenshot{pdb-session-a.png}{3.5cm}
-\captiontext{Breakpoint, validation, and range-reduction inspection.}
-\vspace{0.05cm}
-\screenshot{pdb-session-b.png}{3.5cm}
-\captiontext{Taylor recurrence variables and final-result inspection.}
+\screenshot{pdb-session.png}{5.5cm}
+\captiontext{Breakpoint, validation, range reduction, Taylor recurrence, and final result inspection.}
 \end{center}
 }
 
@@ -360,7 +356,7 @@ TC08 & Valid test set & Error $\leq10^{-6}$ radians\\
 colour. The GUI \emph{aims to be accessible}; it was not formally evaluated with users or assistive technology.
 
 \begin{center}
-\screenshot{uidp-mind-map.png}{6.0cm}
+\screenshot{uidp-mindmap.png}{6.0cm}
 \captiontext{UIDP applicability decision mind map.}
 \end{center}
 }
@@ -448,11 +444,10 @@ Python Code}. \\
 [9] & SOEN 6011 Course Material, \emph{CASTROFF Prompt Framework}. \\
 \end{tabular}
 
-\vspace{0.10cm}
+\vspace{0.5cm}
 
-\normalsize\textbf{Repository:}\\[0.02cm]
-\ttfamily\small
-github.com/md-aliyawar-khan/SOEN-6011-D3-arccos-calculator
+\normalsize\textbf{Repository:}\\[0.2cm]
+\url{https://github.com/md-aliyawar-khan/SOEN-6011-D3-arccos-calculator}
 }
 
 \end{columns}
