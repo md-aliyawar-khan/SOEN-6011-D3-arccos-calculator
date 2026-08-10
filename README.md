@@ -66,22 +66,21 @@ Enter a finite value of `x` in the interval `[-1, 1]`, then select **Calculate**
 
 For non-negative input, the application uses:
 
-\[
+$$
 \arccos(x) = 2\arcsin\left(\sqrt{\frac{1-x}{2}}\right)
-\]
+$$
 
 For negative input:
 
-\[
+$$
 \arccos(x) = \pi - \arccos(-x)
-\]
+$$
 
 The program handles exact endpoints directly:
 
-```text
-arccos(1)  = 0
-arccos(-1) = pi
-```
+$$
+\arccos(1) = 0,\qquad \arccos(-1) = \pi
+$$
 
 `calculate_arcsin()` uses a Taylor-series recurrence and explicitly handles `-1`, `0`, and `1`. `calculate_square_root()` uses Newton's method.
 
@@ -149,4 +148,4 @@ python -m pdb problem7.py
 
 ## Repository
 
-https://github.com/md-aliyawar-khan/SOEN-6011-D3-arccos-calculator
+[GitHub Repository](https://github.com/md-aliyawar-khan/SOEN-6011-D3-arccos-calculator)
